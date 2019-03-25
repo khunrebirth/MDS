@@ -96,7 +96,7 @@
         </div>
         <ul class="sidebar-menu">
             <li class="menu-header">เมนูการจัดการ</li>
-            <li><a class="nav-link" href="{{ route('rooms') }}"><i class="fas fa-briefcase"></i> <span>ห้อง</span></a></li>
+            <li><a class="nav-link" href="{{ route('rooms') }}"><i class="fas fa-briefcase"></i> <span>ห้องพัก</span></a></li>
             <li><a class="nav-link" href="{{ route('customers') }}"><i class="fas fa-users"></i> <span>ผู้อาศัย</span></a></li>
             <li class="nav-item dropdown">
                 <a href="#" class="nav-link has-dropdown"><i class="fas fa-pencil-alt"></i><span>บันทึก</span></a>
