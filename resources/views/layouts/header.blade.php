@@ -96,16 +96,16 @@
         </div>
         <ul class="sidebar-menu">
             <li class="menu-header">เมนูการจัดการ</li>
-            <li><a class="nav-link" href="{{ route('rooms') }}"><i class="fas fa-briefcase"></i> <span>ห้องพัก</span></a></li>
-            <li><a class="nav-link" href="{{ route('customers') }}"><i class="fas fa-users"></i> <span>ผู้อาศัย</span></a></li>
+            <li><a class="nav-link" href="{{ route('rooms.index') }}"><i class="fas fa-briefcase"></i> <span>ห้องพัก</span></a></li>
+            <li><a class="nav-link" href="{{ route('customers.index') }}"><i class="fas fa-users"></i> <span>ผู้อาศัย</span></a></li>
             <li class="nav-item dropdown">
                 <a href="#" class="nav-link has-dropdown"><i class="fas fa-pencil-alt"></i><span>บันทึก</span></a>
                 <ul class="dropdown-menu">
-                    <li class="active"><a class="nav-link" href="{{ route('meter.weters') }}">มิเตอร์น้ำ</a></li>
-                    <li><a class="nav-link" href="{{ route('meter.electrics') }}">มิเตอร์ไฟ</a></li>
+                    <li class="active"><a class="nav-link" href="#">มิเตอร์น้ำ</a></li>
+                    <li><a class="nav-link" href="#">มิเตอร์ไฟ</a></li>
                 </ul>
             </li>
-            <li><a class="nav-link" href="{{ route('invoices') }}"><i class="fas fa-newspaper"></i> <span>สร้างใบแจ้งค่าเช่า</span></a>
+            <li><a class="nav-link" href="{{ route('invoices.index') }}"><i class="fas fa-newspaper"></i> <span>สร้างใบแจ้งค่าเช่า</span></a>
             </li>
             <li class="nav-item dropdown">
                 <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-columns"></i> <span>รายการ</span></a>
@@ -115,7 +115,7 @@
                     <li><a class="nav-link" href="layout-top-navigation.html">Top Navigation</a></li>
                 </ul>
             </li>
-            <li><a class="nav-link" href="{{ route('settings') }}"><i class="fas fa-cogs"></i> <span>ตั้งค่า</span></a></li>
+            <li><a class="nav-link" href="{{ route('settings.index') }}"><i class="fas fa-cogs"></i> <span>ตั้งค่า</span></a></li>
         </ul>
     </aside>
 </div>

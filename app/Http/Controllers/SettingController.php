@@ -3,9 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Room;
 
-class RoomController extends Controller
+class SettingController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,9 +13,7 @@ class RoomController extends Controller
      */
     public function index()
     {
-        $rooms = Room::all();
-
-        return view('rooms.index', compact('rooms'));
+        //
     }
 
     /**
@@ -37,17 +34,7 @@ class RoomController extends Controller
      */
     public function store(Request $request)
     {
-        Room::create([
-            'no' => $request->room_no,
-            'detail' => $request->room_detail,
-            'price' => $request->room_price,
-            'status' => $request->room_status
-        ]);
-
-        return response()->json([
-            'status' => 'success',
-            'message' => 'เพิ่มห้องสำเร็จ!'
-        ]);
+        //
     }
 
     /**
@@ -81,17 +68,7 @@ class RoomController extends Controller
      */
     public function update(Request $request, $id)
     {
-        Room::where('id', $id)->update([
-            'no' => $request->room_no,
-            'detail' => $request->room_detail,
-            'price' => $request->room_price,
-            'status' => $request->room_status
-        ]);
-
-        return response()->json([
-            'status' => 'success',
-            'message' => 'อัพเดทห้องสำเร็จ!'
-        ]);
+        //
     }
 
     /**
@@ -102,11 +79,6 @@ class RoomController extends Controller
      */
     public function destroy($id)
     {
-        Room::destroy($id);
-
-        return response()->json([
-            'status' => 'success',
-            'message' => 'ลบห้องสำเร็จ!'
-        ]);
+        //
     }
 }

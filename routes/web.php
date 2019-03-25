@@ -16,23 +16,31 @@ Route::prefix('/')->group(function () {
     Route::get('/', 'HomeController@index')->name('home');
 
     # Room
-    Route::get('rooms', 'RoomController@index')->name('rooms');
+    Route::resource('rooms', 'RoomController');
 
     # Customer
-    Route::get('customers', 'CustomerController@index')->name('customers');
+    Route::resource('customers', 'CustomerController');
 
     # Meter Water
-    Route::get('meter/water', 'MeterWaterController@index')->name('meter.weters');
+//    Route::resource('meter/waters', 'MeterWaterController');
 
     # Meter Electric
-    Route::get('meter/electric', 'MeterElectricController@index')->name('meter.electrics');
+//    Route::resource('meter/electrics', 'MeterElectricController');
 
     # Invoice
-    Route::get('invoices', 'InvoiceController@index')->name('invoices');
+    Route::resource('invoices', 'InvoiceController');
 
     # Report
-    Route::get('reports', 'ReportController@index')->name('reports');
+    Route::resource('reports', 'ReportController');
 
     # Setting
-    Route::get('settings', 'SettingController@index')->name('settings');
+    Route::resource('settings', 'SettingController');
+});
+
+# Ajax
+Route::group(['prefix' => '/ajax', 'as' => 'ajax.'], function () {
+
+    # Room
+    Route::get('room/by/id', 'Ajax\RoomController@getRoomById')->name('get.room.by.id');
+
 });

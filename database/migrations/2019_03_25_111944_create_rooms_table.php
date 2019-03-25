@@ -19,14 +19,6 @@ class CreateRoomsTable extends Migration
             $table->text('detail');
             $table->string('price');
             $table->integer('status')->comment('0 = ว่าง, 1 = ไม่ว่าง');
-            $table->bigInteger('room_type_id')
-                ->unsigned()
-                ->nullable();
-
-            $table->foreign('room_type_id')
-                ->references('id')->on('room_type')
-                ->onDelete('cascade');
-
             $table->timestamps();
         });
     }
