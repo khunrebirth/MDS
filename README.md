@@ -9,9 +9,9 @@
 * [Stisla Template](https://github.com/stisla/stisla)
 
 ## What's Required
-* Composer(https://getcomposer.org/)
-* Laravel(https://laravel.com/)
-* Web Server Ex.Xampp(https://www.apachefriends.org/index.html)
+* [Composer](https://getcomposer.org/)
+* [Laravel](https://laravel.com/)
+* Web Server Ex.[Xampp](https://www.apachefriends.org/index.html)
 
 ## Installation:
 - 1. ดาวน์โหลดหรือ Clone Project ลงในเครื่องของคุณ
