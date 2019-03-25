@@ -19,7 +19,7 @@
 - สร้างไฟล์ .env (หรือก็อปปี้ไฟล์ .env.example แล้วเปลี่ยนชื่อเป็น .env ธรรมดา)
 - ตั้งค่า Datebase ที่ไฟล์ .env
 - ทำการ Generate key ผ่านคำสั่ง ```php artisan key:generate```
-- สร้างฐานข้อชื่่อ mds
+- สร้างฐานข้อมูลชื่่อ mds
 - ทำการ Migrate Database (สร้างตารางต่าง ๆ) ผ่านคำสั่ง ```php artisan migrate:refresh --seed```
 - สั่งรัน Serve ผ่านคำสั่ง ```php artisan serve```
 - เข้าสู่หน้าเริ่มต้นผ่าน url http://127.0.0.1:8000
