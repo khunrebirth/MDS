@@ -15,7 +15,7 @@
 
 ## Installation:
 - ดาวน์โหลดหรือ Clone Project ลงในเครื่องของคุณ
-- ทำการติดตั้ง Composer ลงในโปรเจ็ค ผ่านคำสั่ง ``` composer install ``` (ต้องมี Composer ในเครื่องถึงใช้คำสั่งนี้ได้)
+- ติดตั้ง Composer ลงในโปรเจ็ค ผ่านคำสั่ง ``` composer install ``` (ต้องมี Composer ในเครื่องถึงใช้คำสั่งนี้ได้)
 - สร้างไฟล์ .env (หรือก็อปปี้ไฟล์ .env.example แล้วเปลี่ยนชื่อเป็น .env ธรรมดา)
 - ตั้งค่า Datebase ที่ไฟล์ .env
 - ทำการ Generate key ผ่านคำสั่ง ```php artisan key:generate```
