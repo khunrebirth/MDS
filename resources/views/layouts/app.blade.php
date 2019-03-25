@@ -4,9 +4,9 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Laravel</title>
+    <title>MDS</title>
 
-    {{--font--}}
+    <!-- Google Font -->
     <link href="https://fonts.googleapis.com/css?family=Kanit:100,200,300,400,500,600,700&amp;subset=thai" rel="stylesheet">
 
     <!-- General CSS Files -->
@@ -14,10 +14,12 @@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
 
     <!-- CSS Libraries -->
-    <link rel="stylesheet" href="../node_modules/jqvmap/dist/jqvmap.min.css">
-    <link rel="stylesheet" href="../node_modules/weathericons/css/weather-icons.min.css">
-    <link rel="stylesheet" href="../node_modules/weathericons/css/weather-icons-wind.min.css">
-    <link rel="stylesheet" href="../node_modules/summernote/dist/summernote-bs4.css">
+    {{--<link rel="stylesheet" href="../node_modules/jqvmap/dist/jqvmap.min.css">--}}
+    {{--<link rel="stylesheet" href="../node_modules/weathericons/css/weather-icons.min.css">--}}
+    {{--<link rel="stylesheet" href="../node_modules/weathericons/css/weather-icons-wind.min.css">--}}
+    {{--<link rel="stylesheet" href="../node_modules/summernote/dist/summernote-bs4.css">--}}
+    <link rel="stylesheet" href="{{ asset('css/dataTables.bootstrap4.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/select.bootstrap4.min.css') }}">
 
     <!-- Template CSS -->
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
@@ -53,14 +55,18 @@
     <script src="{{ asset('js/stisla.js') }}"></script>
 
     <!-- JS Libraies -->
-    <script src="../node_modules/simpleweather/jquery.simpleWeather.min.js"></script>
-    <script src="../node_modules/chart.js/dist/Chart.min.js"></script>
-    <script src="../node_modules/jqvmap/dist/jquery.vmap.min.js"></script>
-    <script src="../node_modules/jqvmap/dist/maps/jquery.vmap.world.js"></script>
-    <script src="../node_modules/summernote/dist/summernote-bs4.js"></script>
-    <script src="../node_modules/chocolat/dist/js/jquery.chocolat.min.js"></script>
+    {{--<script src="../node_modules/simpleweather/jquery.simpleWeather.min.js"></script>--}}
+    {{--<script src="../node_modules/chart.js/dist/Chart.min.js"></script>--}}
+    {{--<script src="../node_modules/jqvmap/dist/jquery.vmap.min.js"></script>--}}
+    {{--<script src="../node_modules/jqvmap/dist/maps/jquery.vmap.world.js"></script>--}}
+    {{--<script src="../node_modules/summernote/dist/summernote-bs4.js"></script>--}}
+    {{--<script src="../node_modules/chocolat/dist/js/jquery.chocolat.min.js"></script>--}}
+    <script src="{{ asset('js/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ asset('js/dataTables.bootstrap4.min.js') }}"></script>
+    <script src="{{ asset('js/select.bootstrap4.min.js') }}"></script>
 
     <!-- Page Specific JS File -->
+    <script src="{{ asset('js/page/modules-datatables.js') }}"></script>
     <script src="{{ asset('js/page/index-0.js') }}"></script>
 
     <!-- Template JS File -->
