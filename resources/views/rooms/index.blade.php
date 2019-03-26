@@ -128,13 +128,13 @@
                                         <div class="col-sm-9">
                                             <div class="form-check">
                                                 <input class="form-check-input" type="radio" id="roomStatus1" name="status" value="0" checked>
-                                                <label class="form-check-label" for="gridRadios1">
+                                                <label class="form-check-label">
                                                     ว่าง
                                                 </label>
                                             </div>
                                             <div class="form-check">
                                                 <input class="form-check-input" type="radio" id="roomStatus2" name="status" value="1">
-                                                <label class="form-check-label" for="gridRadios2">
+                                                <label class="form-check-label">
                                                     ไม่ว่าง
                                                 </label>
                                             </div>
@@ -151,6 +151,7 @@
                                     </select>
                                     <input type="hidden" value="" id="customerRoomId">
                                 </div>
+                                <div id="customerRoomStatusBody"></div>
                             </div>
                         </div>
                         <div class="modal-footer bg-whitesmoke br">
@@ -194,6 +195,7 @@
         function clearForm() {
             $('#modalAddEditRoom form')[0].reset()
             $('#customerRoom').prop('disabled', 'disabled')
+            $("#customerRoom option[value=0]").attr('selected', 'selected')
         }
 
         function showRoom(id) {
@@ -242,7 +244,30 @@
                     $('#roomDetail').val(res.data.detail)
                     $('#roomPrice').val(res.data.price)
 
-                    // TODO:: stutus
+                    if (res.data.status != 0) {
+                        $("#roomStatus2").prop("checked", true)
+                        $('#customerRoom').prop('disabled', false)
+                        $("#customerRoom option[value=" + res.etc.customer_id + "]").attr('selected', 'selected')
+                        $("#customerRoomId").val(res.etc.customer_room_id)
+                    }
+
+                    var html = '<div class="form-group">\n' +
+                        '<label class="d-block">สถานะลูกค้า</label>\n' +
+                        '<div class="form-check form-check-inline">\n' +
+                        '<input class="form-check-input" type="radio" id="inlineradio2" value="old" name="customer_room_status" checked>\n' +
+                        '<label class="form-check-label">คงเดิม</label>\n' +
+                        '</div>\n' +
+                        '<div class="form-check form-check-inline">\n' +
+                        '<input class="form-check-input" type="radio" id="inlineradio2" value="change" name="customer_room_status">\n' +
+                        '<label class="form-check-label">เปลี่ยนเจ้าของ</label>\n' +
+                        '</div>\n' +
+                        '<div class="form-check form-check-inline">\n' +
+                        '<input class="form-check-input" type="radio" id="inlineradio2" value="move_out" name="customer_room_status">\n' +
+                        '<label class="form-check-label">ย้ายออก</label>\n' +
+                        '</div>\n' +
+                        '</div>'
+
+                    $('#customerRoomStatusBody').html(html)
 
                     $('#roomId').data('link-to-update', url)
                 },
@@ -301,11 +326,16 @@
                 var roomId = $('#roomId').val()
                 var url = ''
                 var method = ''
+                var customerRoomType = ''
+                var customerRoomId = ''
 
                 // Case:: Update
                 if (roomId != '') {
                     url = $('#roomId').data('link-to-update')
                     method = 'PATCH'
+
+                    customerRoomType = $('input[type=radio][name=customer_room_status]:checked').val()
+                    customerRoomId = $("#customerRoomId").val()
                 }
 
                 // Case:: Insert New
@@ -323,7 +353,9 @@
                         room_detail: $('#roomDetail').val(),
                         room_price: $('#roomPrice').val(),
                         room_status: $("#roomStatus1").prop("checked") ? 0 : 1,
-                        customer_room: $('#customerRoom').val()
+                        customer_room: $('#customerRoom').val(),
+                        customer_room_type: customerRoomType,
+                        customer_room_id: customerRoomId
                     },
                     success: function (res) {
 
@@ -335,7 +367,7 @@
                             button: "Great!"
                         })
 
-                        // reload()
+                        reload()
                     },
                     error: function (res) {
                         swal({

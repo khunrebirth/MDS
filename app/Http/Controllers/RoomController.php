@@ -95,15 +95,40 @@ class RoomController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $room = Room::where('id', $id)->update([
+        // Update Room
+        Room::find($id)->update([
             'no' => $request->room_no,
             'detail' => $request->room_detail,
             'price' => $request->room_price,
             'status' => $request->room_status
         ]);
 
-        if ($request->customer_room != 'empty') {
-            // TODO::
+        switch ($request->customer_room_type) {
+            case 'old':
+                break;
+
+            case 'change':
+                if ($request->customer_room_id != '') {
+                    CustomerRoom::where('id', $request->customer_room_id)
+                        ->update([
+                            'date_move_out' => \Carbon\Carbon::now()->toDateTimeString()
+                        ]);
+                }
+
+                CustomerRoom::create([
+                    'customer_id' => $request->customer_room,
+                    'room_id' => $id,
+                    'date_move_in' => \Carbon\Carbon::now()->toDateTimeString()
+                ]);
+                break;
+
+            case 'move_out':
+                CustomerRoom::where('customer_id', '=', $request->customer_room)
+                    ->where('room_id', '=', $id)
+                    ->update([
+                        'date_move_out' => \Carbon\Carbon::now()->toDateTimeString()
+                    ]);
+                break;
         }
 
         return response()->json([

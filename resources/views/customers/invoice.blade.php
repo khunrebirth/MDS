@@ -9,7 +9,7 @@
             </div>
 
             <div class="section-body">
-                <h2 class="section-title">รายละเอียดที่ลูกค้าค้างชำระ</h2>
+                <h2 class="section-title">รายการบิลที่ลูกค้าค้างชำระ</h2>
                 <div class="row">
                     <div class="col-12">
                         <div class="card">

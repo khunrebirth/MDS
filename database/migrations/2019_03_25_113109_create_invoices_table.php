@@ -23,6 +23,7 @@ class CreateInvoicesTable extends Migration
                 ->nullable();
             $table->integer('total');
             $table->dateTime('date');
+            $table->string('status')->comment('0 = ยังไม่จ่าย, 1 = จ่ายแล้ว');;
 
             $table->foreign('customer_id')
                 ->references('id')->on('customers')
