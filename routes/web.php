@@ -50,5 +50,4 @@ Route::group(['prefix' => '/ajax', 'as' => 'ajax.'], function () {
 
     # Customer
     Route::get('customer/by/id', 'Ajax\CustomerController@getCustomerById')->name('get.customer.by.id');
-
 });
