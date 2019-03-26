@@ -98,11 +98,11 @@
             <li class="menu-header">เมนูการจัดการ</li>
             <li class="{{ Route::is('rooms.*') ? 'active' : '' }}"><a class="nav-link" href="{{ route('rooms.index') }}"><i class="fas fa-briefcase"></i> <span>ห้องพัก</span></a></li>
             <li class="{{ Route::is('customers.*') ? 'active' : '' }}"><a class="nav-link" href="{{ route('customers.index') }}"><i class="fas fa-users"></i> <span>ลูกค้า</span></a></li>
-            <li class="nav-item dropdown">
+            <li class="nav-item dropdown {{ Route::is('meters.*') ? 'active' : '' }}">
                 <a href="#" class="nav-link has-dropdown"><i class="fas fa-pencil-alt"></i><span>บันทึก</span></a>
                 <ul class="dropdown-menu">
-                    <li><a class="nav-link" href="#">มิเตอร์น้ำ</a></li>
-                    <li><a class="nav-link" href="#">มิเตอร์ไฟ</a></li>
+                    <li class="{{ Route::is('meters.water.*') ? 'active' : '' }}"><a class="nav-link" href="{{ route('meters.water.home') }}">มิเตอร์น้ำ</a></li>
+                    <li class="{{ Route::is('meters.electric.*') ? 'active' : '' }}"><a class="nav-link" href="{{ route('meters.electric.home') }}">มิเตอร์ไฟ</a></li>
                 </ul>
             </li>
             <li class="{{ Route::is('invoices.*') ? 'active' : '' }}"><a class="nav-link" href="{{ route('invoices.index') }}"><i class="fas fa-newspaper"></i> <span>สร้างใบแจ้งค่าเช่า</span></a>

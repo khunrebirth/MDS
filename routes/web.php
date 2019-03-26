@@ -26,10 +26,10 @@ Route::prefix('/')->group(function () {
     Route::get('customers/{id}/invoice/detail', 'CustomerController@invoiceDetail')->name('customers.invoice.detail');
 
     # Meter Water
-//    Route::resource('meter/waters', 'MeterWaterController');
+    Route::get('meters/water', 'MeterWaterController@index')->name('meters.water.home');
 
     # Meter Electric
-//    Route::resource('meter/electrics', 'MeterElectricController');
+    Route::get('meters/electric', 'MeterElectricController@index')->name('meters.electric.home');
 
     # Invoice
     Route::resource('invoices', 'InvoiceController');
