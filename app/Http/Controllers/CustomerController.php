@@ -134,7 +134,7 @@ class CustomerController extends Controller
                         $listId[] = $customer->id;
                 }
 
-                $customers = Customer::where('id', $listId)->get();
+                $customers = Customer::whereIn('id', $listId)->get();
                 break;
         }
 

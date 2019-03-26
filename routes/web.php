@@ -27,9 +27,11 @@ Route::prefix('/')->group(function () {
 
     # Meter Water
     Route::get('meters/water', 'MeterWaterController@index')->name('meters.water.home');
+    Route::post('meters/water/update', 'MeterWaterController@updateAll')->name('meters.water.update.all');
 
     # Meter Electric
     Route::get('meters/electric', 'MeterElectricController@index')->name('meters.electric.home');
+    Route::post('meters/electric/update', 'MeterElectricController@updateAll')->name('meters.electric.update.all');
 
     # Invoice
     Route::resource('invoices', 'InvoiceController');
