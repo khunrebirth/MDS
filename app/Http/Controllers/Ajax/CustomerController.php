@@ -12,7 +12,8 @@ class CustomerController extends Controller
         $customer = Customer::find($request->id);
 
         return response()->json([
-            'data' => $customer
+            'data' => $customer,
+            'etc' => count($customer->invoices)
         ]);
     }
 }

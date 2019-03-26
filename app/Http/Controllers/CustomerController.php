@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\CustomerRoom;
+use App\Invoice;
+use App\InvoiceDetail;
 use Illuminate\Http\Request;
 use App\Customer;
 
@@ -15,8 +18,9 @@ class CustomerController extends Controller
     public function index()
     {
         $customers = Customer::all();
+        $customerType = 'all';
 
-        return view('customers.index', compact('customers'));
+        return view('customers.index', compact('customers', 'customerType'));
     }
 
     /**
@@ -112,5 +116,43 @@ class CustomerController extends Controller
             'status' => 'success',
             'message' => 'ลบลูกค้าสำเร็จ!'
         ]);
+    }
+
+    public function search(Request $request)
+    {
+        $customerType = $request->customer_type;
+
+        switch ($customerType) {
+            case 'all':
+                $customers = Customer::all();
+                break;
+            case 'have':
+                $customers_all = Customer::all();
+                $listId = [];
+                foreach ($customers_all as $customer) {
+                    if (count($customer->invoices) > 0)
+                        $listId[] = $customer->id;
+                }
+
+                $customers = Customer::where('id', $listId)->get();
+                break;
+        }
+
+        return view('customers.index', compact('customers', 'customerType'));
+    }
+
+    public function invoice($id)
+    {
+        $customers = Customer::find($id);
+        $invoices = Invoice::where('customer_id', '=', $id)->get();
+
+        return view('customers.invoice', compact('customers', 'invoices'));
+    }
+
+    public function invoiceDetail($id)
+    {
+        $invoices = InvoiceDetail::where('invoice_id', '=', $id)->get();
+
+        return view('customers.invoice_detail', compact('invoices'));
     }
 }

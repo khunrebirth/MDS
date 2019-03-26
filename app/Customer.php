@@ -15,4 +15,9 @@ class Customer extends Model
         'phone',
         'email',
     ];
+
+    public function invoices()
+    {
+        return $this->hasMany('App\Invoice');
+    }
 }

@@ -7,7 +7,6 @@
             <div class="section-header">
                 <h1>ห้องพัก</h1>
             </div>
-
             <div class="section-body">
                 <h2 class="section-title">รายชื่อห้องพัก (ทั้งหมด)</h2>
                 <div class="row">
@@ -16,25 +15,28 @@
                             <div class="card-header">
                                 <h4>ค้นหา</h4>
                             </div>
-                            <div class="card-body" style="padding-bottom: 0px;">
-                                <div class="form-group">
-                                    <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" id="inlineradio1" name="room_type" value="option1" checked>
-                                        <label class="form-check-label" for="inlineradio1">ห้องทั้งหมด</label>
-                                    </div>
-                                    <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" id="inlineradio1" name="room_type" value="option1">
-                                        <label class="form-check-label" for="inlineradio1">ห้องที่ว่างอยู่</label>
-                                    </div>
-                                    <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" id="inlineradio1" name="room_type" value="option1">
-                                        <label class="form-check-label" for="inlineradio1">ห้องที่ไม่ว่าง</label>
+                            <form action="{{ route('rooms.search') }}" method="post">
+                                @csrf
+                                <div class="card-body" style="padding-bottom: 0px;">
+                                    <div class="form-group">
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" id="inlineradio1" name="room_type" value="all" {{ $roomType ==  'all' ? 'checked' : '' }}>
+                                            <label class="form-check-label" for="inlineradio1">ห้องทั้งหมด</label>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" id="inlineradio1" name="room_type" value="empty" {{ $roomType == 'empty' ?  'checked' : ''}}>
+                                            <label class="form-check-label" for="inlineradio1">ห้องที่ว่างอยู่</label>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" id="inlineradio1" name="room_type" value="full" {{ $roomType == 'full' ?  'checked' : ''}}>
+                                            <label class="form-check-label" for="inlineradio1">ห้องที่ไม่ว่าง</label>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="card-footer text-right">
-                                <button type="submit" class="btn btn-primary">ค้นหา</button>
-                            </div>
+                                <div class="card-footer text-right">
+                                    <button type="submit" class="btn btn-primary">ค้นหา</button>
+                                </div>
+                            </form>
                         </div>
                     </div>
                     <div class="col-12">
@@ -63,19 +65,17 @@
                                                 <td>{{ $room->price }}</td>
                                                 <td>
                                                     <div class="{{ $room->status != 1 ? 'badge badge-success' : 'badge badge-danger' }}">
-                                                        ว่าง
+                                                        {{ $room->status != 1 ? 'ว่าง' : 'ไม่ว่าง' }}
                                                     </div>
                                                 </td>
                                                 <td>
-                                                    <button type="button" class="btn btn-info" onclick="showRoom()"><i
-                                                                class="fas fa-eye"></i> ดูรายละเอียด
+                                                    <button type="button" class="btn btn-info" onclick="showRoom({{ $room->id }})">
+                                                        <i class="fas fa-eye"></i> ดูรายละเอียด
                                                     </button>
-                                                    <button type="button" class="btn btn-warning"
-                                                            onclick="editRoom({{ $room->id . ',' . "'" . route('rooms.update', $room->id) . "'"}})">
+                                                    <button type="button" class="btn btn-warning" onclick="editRoom({{ $room->id . ',' . "'" . route('rooms.update', $room->id) . "'"}})">
                                                         <i class="fas fa-edit"></i> แก้ไข
                                                     </button>
-                                                    <button type="button" class="btn btn-danger"
-                                                            onclick="deleteRoom({{ $room->id . ',' . "'" . route('rooms.destroy', $room->id) . "'"}})">
+                                                    <button type="button" class="btn btn-danger" onclick="deleteRoom({{ $room->id . ',' . "'" . route('rooms.destroy', $room->id) . "'"}})">
                                                         <i class="fas fa-trash-alt"></i> ลบ
                                                     </button>
                                                 </td>
@@ -127,15 +127,13 @@
                                         <div class="col-form-label col-sm-3 pt-0">สถานะ</div>
                                         <div class="col-sm-9">
                                             <div class="form-check">
-                                                <input class="form-check-input" type="radio" id="roomStatus1"
-                                                       name="status" value="0" checked>
+                                                <input class="form-check-input" type="radio" id="roomStatus1" name="status" value="0" checked>
                                                 <label class="form-check-label" for="gridRadios1">
                                                     ว่าง
                                                 </label>
                                             </div>
                                             <div class="form-check">
-                                                <input class="form-check-input" type="radio" id="roomStatus2"
-                                                       name="status" value="1">
+                                                <input class="form-check-input" type="radio" id="roomStatus2" name="status" value="1">
                                                 <label class="form-check-label" for="gridRadios2">
                                                     ไม่ว่าง
                                                 </label>
@@ -143,12 +141,41 @@
                                         </div>
                                     </div>
                                 </fieldset>
+                                <div class="form-group">
+                                    <label>ชื่อเจ้าของห้อง</label>
+                                    <select class="form-control" id="customerRoom" name="customer_room" disabled>
+                                        <option value="empty">เลือกชื่อลูกค้า</option>
+                                        @foreach($listCustomers as $customer)
+                                            <option value="{{ $customer->id }}">{{ "$customer->first_name $customer->last_name" }}</option>
+                                        @endforeach
+                                    </select>
+                                    <input type="hidden" value="" id="customerRoomId">
+                                </div>
                             </div>
                         </div>
                         <div class="modal-footer bg-whitesmoke br">
                             <button type="submit" id="btnAddRoom" class="btn btn-primary">บันทึก</button>
                         </div>
                     </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" tabindex="-1" role="dialog"  id="modalShowRoom">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">ดูข้อมูลห้อง</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                        <div class="modal-body">
+                            <div id="bodyRoom"></div>
+                        </div>
+                        <div class="modal-footer bg-whitesmoke br">
+                            <a href="#" class="btn btn-primary">เช็คประวัติห้อง</a>
+                        </div>
                 </div>
             </div>
         </div>
@@ -166,6 +193,28 @@
 
         function clearForm() {
             $('#modalAddEditRoom form')[0].reset()
+            $('#customerRoom').prop('disabled', 'disabled')
+        }
+
+        function showRoom(id) {
+            $.ajax({
+                url: '{{ route('ajax.get.room.by.id') }}',
+                data: {id: id},
+                success: function (res) {
+
+                    $('#modalShowRoom').modal('show')
+
+                    var roomStatus = res.data.status == 0 ? 'ว่าง' : 'ไมว่าง'
+                    var html = '<p>' +
+                        'หมายเลขห้อง: ' + res.data.no + '<br>' +
+                        'รายละเอียด: ' + res.data.detail + '<br>' +
+                        'ราคา: ' + res.data.price + '<br>' +
+                        'สถานะ: ' + roomStatus + ' <br>' +
+                        '</p>'
+
+                    $('#bodyRoom').html(html)
+                }
+            })
         }
 
         function addRoom() {
@@ -246,7 +295,6 @@
         }
 
         $(document).ready(function () {
-
             $('#addEditRoomForm').on('submit', function (e) {
                 e.preventDefault()
 
@@ -275,6 +323,7 @@
                         room_detail: $('#roomDetail').val(),
                         room_price: $('#roomPrice').val(),
                         room_status: $("#roomStatus1").prop("checked") ? 0 : 1,
+                        customer_room: $('#customerRoom').val()
                     },
                     success: function (res) {
 
@@ -286,7 +335,7 @@
                             button: "Great!"
                         })
 
-                        reload()
+                        // reload()
                     },
                     error: function (res) {
                         swal({
@@ -298,6 +347,15 @@
                     }
                 })
             })
+
+            $('input[type=radio][name=status]').on('change', function() {
+                if (this.value == '0') {
+                    $('#customerRoom').prop('disabled', 'disabled')
+                }
+                else if (this.value == '1') {
+                    $('#customerRoom').prop('disabled', false)
+                }
+            });
         })
     </script>
 @endpush

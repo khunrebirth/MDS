@@ -17,9 +17,13 @@ Route::prefix('/')->group(function () {
 
     # Room
     Route::resource('rooms', 'RoomController');
+    Route::post('rooms/search', 'RoomController@search')->name('rooms.search');
 
     # Customer
     Route::resource('customers', 'CustomerController');
+    Route::post('customers/search', 'CustomerController@search')->name('customers.search');
+    Route::get('customers/{id}/invoice', 'CustomerController@invoice')->name('customers.invoice');
+    Route::get('customers/{id}/invoice/detail', 'CustomerController@invoiceDetail')->name('customers.invoice.detail');
 
     # Meter Water
 //    Route::resource('meter/waters', 'MeterWaterController');

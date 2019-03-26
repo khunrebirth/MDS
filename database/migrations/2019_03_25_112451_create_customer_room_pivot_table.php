@@ -22,7 +22,7 @@ class CreateCustomerRoomPivotTable extends Migration
                 ->unsigned()
                 ->nullable();
             $table->dateTime('date_move_in');
-            $table->dateTime('date_move_out');
+            $table->dateTime('date_move_out')->nullable();
 
             $table->foreign('customer_id')
                 ->references('id')->on('customers')

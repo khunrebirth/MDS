@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Customer;
 use Illuminate\Http\Request;
 use App\Room;
+use App\CustomerRoom;
 
 class RoomController extends Controller
 {
@@ -15,8 +17,10 @@ class RoomController extends Controller
     public function index()
     {
         $rooms = Room::all();
+        $roomType = 'all';
+        $listCustomers = Customer::all();
 
-        return view('rooms.index', compact('rooms'));
+        return view('rooms.index', compact('rooms', 'roomType', 'listCustomers'));
     }
 
     /**
@@ -37,12 +41,22 @@ class RoomController extends Controller
      */
     public function store(Request $request)
     {
-        Room::create([
+
+        $room = Room::create([
             'no' => $request->room_no,
             'detail' => $request->room_detail,
             'price' => $request->room_price,
             'status' => $request->room_status
         ]);
+
+        // Event after create room
+        if ($request->customer_room != 'empty') {
+            CustomerRoom::create([
+                'customer_id' => $request->customer_room,
+                'room_id' => $room->id,
+                'date_move_in' => \Carbon\Carbon::now()->toDateTimeString()
+            ]);
+        }
 
         return response()->json([
             'status' => 'success',
@@ -81,12 +95,16 @@ class RoomController extends Controller
      */
     public function update(Request $request, $id)
     {
-        Room::where('id', $id)->update([
+        $room = Room::where('id', $id)->update([
             'no' => $request->room_no,
             'detail' => $request->room_detail,
             'price' => $request->room_price,
             'status' => $request->room_status
         ]);
+
+        if ($request->customer_room != 'empty') {
+            // TODO::
+        }
 
         return response()->json([
             'status' => 'success',
@@ -108,5 +126,25 @@ class RoomController extends Controller
             'status' => 'success',
             'message' => 'ลบห้องสำเร็จ!'
         ]);
+    }
+
+    public function search(Request $request)
+    {
+        $roomType = $request->room_type;
+        $listCustomers = Customer::all();
+
+        switch ($roomType) {
+            case 'all':
+                $rooms = Room::all();
+                break;
+            case 'empty':
+                $rooms = Room::where('status', '=', '0')->get();
+                break;
+            case 'full':
+                $rooms = Room::where('status', '=', '1')->get();
+                break;
+        }
+
+        return view('rooms.index', compact('rooms', 'roomType', 'listCustomers'));
     }
 }

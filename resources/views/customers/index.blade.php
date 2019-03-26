@@ -16,28 +16,31 @@
                             <div class="card-header">
                                 <h4>ค้นหา</h4>
                             </div>
-                            <div class="card-body" style="padding-bottom: 0px;">
-                                <div class="form-group">
-                                    <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" id="inlineradio1" name="room_type" value="option1" checked>
-                                        <label class="form-check-label" for="inlineradio1">ลูกค้าทั้งหมด</label>
-                                    </div>
-                                    <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" id="inlineradio1" name="room_type" value="option1">
-                                        <label class="form-check-label" for="inlineradio1">ลูกค้าที่ค้างค่าเช่า</label>
+                            <form action="{{ route('customers.search') }}" method="post">
+                                @csrf
+                                <div class="card-body" style="padding-bottom: 0px;">
+                                    <div class="form-group">
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" id="inlineradio1" name="customer_type" value="all" {{ $customerType ==  'all' ? 'checked' : '' }}>
+                                            <label class="form-check-label" for="inlineradio1">ลูกค้าทั้งหมด</label>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" id="inlineradio1" name="customer_type" value="have" {{ $customerType ==  'have' ? 'checked' : '' }}>
+                                            <label class="form-check-label" for="inlineradio1">ลูกค้าที่ค้างค่าเช่า</label>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="card-footer text-right">
-                                <button type="submit" class="btn btn-primary">ค้นหา</button>
-                            </div>
+                                <div class="card-footer text-right">
+                                    <button type="submit" class="btn btn-primary">ค้นหา</button>
+                                </div>
+                            </form>
                         </div>
                     </div>
                     <div class="col-12">
                         <div class="card">
                             <div class="card-header text-right" style="display: block;">
                                 <a href="#modalAddEditCustomer" class="btn btn-primary" id="btnShowRoomModal"
-                                   data-toggle="modal" onclick="addRoom()"><i class="fas fa-plus"></i> เพิ่มลูกค้าใหม่</a>
+                                   data-toggle="modal" onclick="addCustomer()"><i class="fas fa-plus"></i> เพิ่มลูกค้าใหม่</a>
                             </div>
                             <div class="card-body">
                                 <div class="table-responsive">
@@ -63,9 +66,9 @@
                                                 <td>{{ $customer->idcard }}</td>
                                                 <td>{{ $customer->phone }}</td>
                                                 <td>{{ $customer->email }}</td>
-                                                <td>0</td>
+                                                <td><a href="{{ route('customers.invoice', $customer->id) }}">{{ count($customer->invoices) }}</a></td>
                                                 <td>
-                                                    <button type="button" class="btn btn-info" onclick="showCustomer()"><i class="fas fa-eye"></i> ดูรายละเอียด
+                                                    <button type="button" class="btn btn-info" onclick="showCustomer({{ $customer->id }})"><i class="fas fa-eye"></i> ดูรายละเอียด
                                                     </button>
                                                     <button type="button" class="btn btn-warning"
                                                             onclick="editCustomer({{ $customer->id . ',' . "'" . route('customers.update', $customer->id) . "'"}})">
@@ -146,6 +149,22 @@
                 </div>
             </div>
         </div>
+
+        <div class="modal fade" tabindex="-1" role="dialog"  id="modalShowCustomer">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">ดูข้อมูลลูกค้า</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div id="bodyCustomer"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 @endsection
 
@@ -172,6 +191,28 @@
             $('#customerEmail').val('')
             $('#modalCustomerName').text('เพิ่มลูกค้าใหม่')
             $('#btnAddCustomer').text('บันทึก')
+        }
+
+        function showCustomer(id) {
+            $.ajax({
+                url: '{{ route('ajax.get.customer.by.id') }}',
+                data: {id: id},
+                success: function (res) {
+
+                    $('#modalShowCustomer').modal('show')
+
+                    var html = '<p>' +
+                        'ชื่อ: ' + res.data.first_name + '<br>' +
+                        'นามสกุล: ' + res.data.last_name + '<br>' +
+                        'ชื่อเล่น: ' + res.data.nickname + '<br>' +
+                        'รหัสบัตรประชาชน: ' + res.data.idcard + ' <br>' +
+                        'เบอร์โทร: ' + res.data.phone + ' <br>' +
+                        'ค้างชำระ: ' + res.etc + ' <br>' +
+                        '</p>'
+
+                    $('#bodyCustomer').html(html)
+                }
+            })
         }
 
         function editCustomer(id, url) {
