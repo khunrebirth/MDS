@@ -19,7 +19,7 @@
                             <div class="card-body" style="padding-bottom: 0px;">
                                 <div class="form-group">
                                     <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" id="inlineradio1" name="room_type" value="option1">
+                                        <input class="form-check-input" type="radio" id="inlineradio1" name="room_type" value="option1" checked>
                                         <label class="form-check-label" for="inlineradio1">ห้องทั้งหมด</label>
                                     </div>
                                     <div class="form-check form-check-inline">
@@ -170,9 +170,9 @@
 
         function addRoom() {
             clearForm()
-            $('#no').val('')
-            $('#detail').val('')
-            $('#price').val('')
+            $('#roomNo').val('')
+            $('#roomDetail').val('')
+            $('#roomPrice').val('')
             $('#modalRoomName').text('เพิ่มห้องใหม่')
             $('#btnAddRoom').text('บันทึก')
         }

@@ -44,4 +44,7 @@ Route::group(['prefix' => '/ajax', 'as' => 'ajax.'], function () {
     # Room
     Route::get('room/by/id', 'Ajax\RoomController@getRoomById')->name('get.room.by.id');
 
+    # Customer
+    Route::get('customer/by/id', 'Ajax\CustomerController@getCustomerById')->name('get.customer.by.id');
+
 });
