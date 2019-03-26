@@ -5,54 +5,50 @@
     <div class="main-content">
         <section class="section">
             <div class="section-header">
-                <h1>ห้องพัก</h1>
+                <h1>การตั้งค่า</h1>
             </div>
 
             <div class="section-body">
-                <h2 class="section-title">รายชื่อห้องพัก</h2>
-                <div class="text-right" style="margin-bottom: 15px;">
-                    <a href="#" class="btn btn-primary"><i class="fas fa-plus"></i> เพิ่มห้องใหม่</a>
-                </div>
+                <h2 class="section-title">รายการตั้งค่า</h2>
+
+                <div id="output-status"></div>
                 <div class="row">
-                    <div class="col-12">
-                        <div class="card">
-                            <div class="card-body">
-                                <div class="table-responsive">
-                                    <table class="table table-striped" id="table-1">
-                                        <thead>
-                                            <tr>
-                                                <th class="text-center">ลำดับ</th>
-                                                <th>หมายเลขห้อง</th>
-                                                <th>รายละเอียด</th>
-                                                <th>ราคา</th>
-                                                <th>ลักษณะห้อง</th>
-                                                <th>สถานะ</th>
-                                                <th>จัดการ</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                        @foreach($rooms as $room)
-                                            <tr>
-                                                <td>{{ $loop->iteration }}</td>
-                                                <td>{{ $room->no }}</td>
-                                                <td>{{ $room->detail }}</td>
-                                                <td>{{ $room->price }}</td>
-                                                <td>{{ $room->room_type_id }}</td>
-                                                <td>
-                                                    <div class="{{ $room->status != 1 ? 'badge badge-success' : 'badge badge-danger' }}">ว่าง</div>
-                                                </td>
-                                                <td>
-                                                    <a href="#" class="btn btn-info"><i class="fas fa-eye"></i> ดูรายละเอียด</a>
-                                                    <a href="#" class="btn btn-warning"><i class="fas fa-edit"></i> แก้ไข</a>
-                                                    <a href="#" class="btn btn-danger"><i class="fas fa-trash-alt"></i> ลบ</a>
-                                                </td>
-                                            </tr>
-                                        @endforeach
-                                        </tbody>
-                                    </table>
+                    <div class="col-md-12">
+                        <form id="setting-form" action="{{ route('settings.update.all') }}" method="post">
+                            @csrf
+                            <div class="card" id="settings-card">
+                                <div class="card-header">
+                                    <h4>กำหนดค่า</h4>
                                 </div>
+                                    <div class="card-body">
+                                        <div class="form-group row align-items-center">
+                                            <label for="site-title" class="form-control-label col-sm-3 text-md-right">ราคามิเตอร์น้ำ (ต่อหน่วย)</label>
+                                            <div class="col-sm-6 col-md-6">
+                                                <input type="hidden" name="meter_water_id" value="{{ $accounts[0]->id }}">
+                                                <input type="text" name="meter_water_price" class="form-control" id="meterWaterPrice" value="{{ $accounts[0]->price }}">
+                                            </div>
+                                        </div>
+                                        <div class="form-group row align-items-center">
+                                            <label for="site-description" class="form-control-label col-sm-3 text-md-right">ราคามิเตอร์ไฟ (ต่อหน่วย)</label>
+                                            <div class="col-sm-6 col-md-6">
+                                                <input type="hidden" name="meter_eletric_id" value="{{ $accounts[1]->id }}">
+                                                <input type="text" name="meter_eletric_price" class="form-control" id="meterEletricPrice" value="{{ $accounts[1]->price }}">
+                                            </div>
+                                        </div>
+                                        {{--<div class="form-group row align-items-center">--}}
+                                            {{--<label for="site-description" class="form-control-label col-sm-3 text-md-right">ราคาห้อง</label>--}}
+                                            {{--<div class="col-sm-6 col-md-9">--}}
+                                                {{--<input type="hidden" name="room_id" value="{{ $accounts[2]->id }}">--}}
+                                                {{--<input type="text" name="room_price" class="form-control" id="roomPrice" value="{{ $accounts[2]->price }}">--}}
+                                            {{--</div>--}}
+                                        {{--</div>--}}
+                                    </div>
+                                    <div class="card-footer bg-whitesmoke text-md-right">
+                                        <button type="submit" class="btn btn-primary" id="btnSave">บันทึก</button>
+                                        <button type="button" class="btn btn-secondary" id="btnReset">ล้างค่า</button>
+                                    </div>
                             </div>
-                        </div>
+                        </form>
                     </div>
                 </div>
             </div>

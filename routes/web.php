@@ -35,6 +35,7 @@ Route::prefix('/')->group(function () {
 
     # Setting
     Route::resource('settings', 'SettingController');
+    Route::post('settings/update/all', 'SettingController@updateAll')->name('settings.update.all');
 });
 
 # Ajax
