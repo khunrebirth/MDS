@@ -46,7 +46,7 @@ class MeterWaterController extends Controller
             MeterWater::where('id', $request->id[$i])->update([
                 'unit' => $request->unit[$i],
                 'unit_current' => $request->unit_current[$i],
-                'total' => $request->unit_current[$i] - $request->unit_current[$i]
+                'total' => $request->unit_current[$i] - $request->unit[$i]
             ]);
         }
 
