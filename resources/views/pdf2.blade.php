@@ -65,17 +65,17 @@
             <?php $invoiceParent = \App\Invoice::find($room->id) ?>
             <?php $invoices = \App\InvoiceDetail::where('invoice_id', '=', $room->id)->get(); ?>
 
-            หมายเลขห้อง {{ $invoiceParent->room->id }}
+            หมายเลขห้อง {{ $invoiceParent->room->id }}<br>
             รายละเอียดบิล {{ '(งวด ' . \Carbon\Carbon::create($invoiceParent->date)->format('Y-m') . ')' }}
 
             <table style="margin-top: 18px;">
                 <tr id="header">
-                    <th>#</th>
-                    <th>รายการ</th>
-                    <th>หน่วยครั้งที่แล้ว</th>
-                    <th>หน่วยปัจจุบัน</th>
-                    <th>ราคา</th>
-                    <th>รวม</th>
+                    <td>#</td>
+                    <td>รายการ</td>
+                    <td>หน่วยครั้งที่แล้ว</td>
+                    <td>หน่วยปัจจุบัน</td>
+                    <td>ราคา</td>
+                    <td>รวม</td>
                 </tr>
                 <tbody>
                 <?php $total = 0; $priceRoom = 0; ?>
