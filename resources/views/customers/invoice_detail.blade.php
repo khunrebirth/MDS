@@ -8,7 +8,7 @@
                 <h1>ลูกค้า</h1>
             </div>
             <div class="section-body">
-                <h2 class="section-title">รายละเอียดบิล</h2>
+                <h2 class="section-title">รายละเอียดบิล {{ '(งวด ' . \Carbon\Carbon::create($invoiceParent->date)->format('Y-m') . ')' }}</h2>
                 <div class="row">
                     <div class="col-12">
                         <div class="card">

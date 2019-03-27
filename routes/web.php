@@ -11,9 +11,12 @@
 |
 */
 
-Route::prefix('/')->group(function () {
+Auth::routes();
+
+Route::middleware(['auth'])->prefix('/')->group(function () {
     # Home
-    Route::get('/', 'HomeController@index')->name('home');
+    Route::get('/', 'HomeController@index');
+    Route::get('/home', 'HomeController@index')->name('home');
 
     # Room
     Route::resource('rooms', 'RoomController');

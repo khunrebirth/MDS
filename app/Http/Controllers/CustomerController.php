@@ -161,8 +161,9 @@ class CustomerController extends Controller
 
     public function invoiceDetail($id)
     {
+        $invoiceParent = Invoice::find($id);
         $invoices = InvoiceDetail::where('invoice_id', '=', $id)->get();
 
-        return view('customers.invoice_detail', compact('invoices'));
+        return view('customers.invoice_detail', compact('invoices', 'invoiceParent'));
     }
 }
