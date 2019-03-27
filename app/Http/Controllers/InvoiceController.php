@@ -10,6 +10,7 @@ use App\MeterEletric;
 use App\MeterWater;
 use App\Room;
 use Illuminate\Http\Request;
+use PDF;
 
 class InvoiceController extends Controller
 {
@@ -149,6 +150,48 @@ class InvoiceController extends Controller
             $invoiceUpdate = Invoice::find($invoice->id);
             $invoiceUpdate->total = $priceTotal;
             $invoiceUpdate->save();
+
+            return $this->showPdf($invoice->id);
+        }
+        else {
+            $accounts = Account::all();
+
+            $priceTotal = 0;
+
+            foreach ($accounts as $account) {
+                $invoiceDetail = InvoiceDetail::where('invoice_id', '=', $checkInvoiceOrCreate->id)
+                    ->where('account_id', '=', $account->id)
+                    ->first();
+                switch ($account->id) {
+                    case '1':
+                        $meterWater = MeterWater::where('room_id', '=', $id)
+                            ->where('account_id', '=', $account->id)
+                            ->first();
+                        $invoiceDetail->unit = $meterWater->unit;
+                        $invoiceDetail->unit_current = $meterWater->unit_current;
+                        $invoiceDetail->total = ($meterWater->unit_current - $meterWater->unit) * $account->price;
+                        break;
+                    case '2':
+                        $meterEletric = MeterEletric::where('room_id', '=', $id)
+                            ->where('account_id', '=', $account->id)
+                            ->first();
+                        $invoiceDetail->unit = $meterEletric->unit;
+                        $invoiceDetail->unit_current = $meterEletric->unit_current;
+                        $invoiceDetail->total = ($meterEletric->unit_current - $meterEletric->unit) * $account->price;
+                        break;
+                    default:
+                        $invoiceDetail->total = $account->price;
+                }
+
+                $priceTotal += $invoiceDetail->total;
+                $invoiceDetail->save();
+            }
+
+            $invoiceUpdate = Invoice::find($checkInvoiceOrCreate->id);
+            $invoiceUpdate->total = $priceTotal;
+            $invoiceUpdate->save();
+
+            return $this->showPdf($checkInvoiceOrCreate->id);
         }
 
         $rooms = Room::where('status', '=', '1')->get();
@@ -161,6 +204,7 @@ class InvoiceController extends Controller
     public function buildAll($date)
     {
         $rooms = Room::where('status', '=', '1')->get();
+        $listRooms = [];
 
         foreach ($rooms as $room) {
 
@@ -187,6 +231,8 @@ class InvoiceController extends Controller
                 $invoice->save();
 
                 $accounts = Account::all();
+
+                $priceTotal = 0;
 
                 foreach ($accounts as $account) {
                     $invoiceDetail = new InvoiceDetail;
@@ -215,9 +261,60 @@ class InvoiceController extends Controller
                             $invoiceDetail->total = $account->price;
                     }
 
+                    $priceTotal += $invoiceDetail->total;
                     $invoiceDetail->save();
                 }
+
+                $invoiceUpdate = Invoice::find($invoice->id);
+                $invoiceUpdate->total = $priceTotal;
+                $invoiceUpdate->save();
+                $listRooms[] = $invoiceUpdate;
+            } else {
+                $accounts = Account::all();
+
+                $priceTotal = 0;
+
+                foreach ($accounts as $account) {
+                    $invoiceDetail = InvoiceDetail::where('invoice_id', '=', $checkInvoiceOrCreate->id)
+                        ->where('account_id', '=', $account->id)
+                        ->first();
+                    switch ($account->id) {
+                        case '1':
+                            $meterWater = MeterWater::where('room_id', '=', $id)
+                                ->where('account_id', '=', $account->id)
+                                ->first();
+                            $invoiceDetail->unit = $meterWater->unit;
+                            $invoiceDetail->unit_current = $meterWater->unit_current;
+                            $invoiceDetail->total = ($meterWater->unit_current - $meterWater->unit) * $account->price;
+                            break;
+
+                        case '2':
+                            $meterEletric = MeterEletric::where('room_id', '=', $id)
+                                ->where('account_id', '=', $account->id)
+                                ->first();
+                            $invoiceDetail->unit = $meterEletric->unit;
+                            $invoiceDetail->unit_current = $meterEletric->unit_current;
+                            $invoiceDetail->total = ($meterEletric->unit_current - $meterEletric->unit) * $account->price;
+                            break;
+
+                        default:
+                            $invoiceDetail->total = $account->price;
+                    }
+
+                    $priceTotal += $invoiceDetail->total;
+                    $invoiceDetail->save();
+                }
+
+                $invoiceUpdate = Invoice::find($checkInvoiceOrCreate->id);
+                $invoiceUpdate->total = $priceTotal;
+                $invoiceUpdate->save();
+
+                $listRooms[] = $checkInvoiceOrCreate;
             }
+        }
+
+        if (count($listRooms) > 0) {
+            return $this->showPdfInvoicesRoomAll($listRooms);
         }
 
         $rooms = Room::where('status', '=', '1')->get();
@@ -225,5 +322,22 @@ class InvoiceController extends Controller
         session()->flash('message', 'สำเร็จ');
 
         return view('invoices.index', compact('rooms'));
+    }
+
+    public function showPdf($invoiceId)
+    {
+        $invoiceParent = Invoice::find($invoiceId);
+        $invoices = InvoiceDetail::where('invoice_id', '=', $invoiceId)->get();
+
+        $pdf = PDF::loadView('pdf', compact('invoices', 'invoiceParent'));
+
+        return $pdf->stream();
+    }
+
+    public function showPdfInvoicesRoomAll($listRooms)
+    {
+        $pdf = PDF::loadView('pdf2', compact('listRooms'));
+
+        return $pdf->stream();
     }
 }
