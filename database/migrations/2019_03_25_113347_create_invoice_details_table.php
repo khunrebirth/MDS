@@ -21,9 +21,9 @@ class CreateInvoiceDetailsTable extends Migration
             $table->bigInteger('invoice_id')
                 ->unsigned()
                 ->nullable();
-            $table->integer('unit');
-            $table->integer('unit_current');
-            $table->integer('total');
+            $table->integer('unit')->nullable();
+            $table->integer('unit_current')->nullable();
+            $table->integer('total')->nullable();
 
             $table->foreign('account_id')
                 ->references('id')->on('accounts')

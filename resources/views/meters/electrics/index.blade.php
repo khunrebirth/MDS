@@ -16,7 +16,7 @@
                         <div class="card">
                             <form action="{{ route('meters.electric.update.all') }}" method="post">
                                 @csrf
-                                <div class="card-header">
+                                <div class="card-header" style="display: block;">
                                     <div class="form-group">
                                         <label>เดือนปัจจุบัน</label>
                                         <input type="date" class="form-control" value="{{ Carbon\Carbon::now()->toDateString() }}" disabled>

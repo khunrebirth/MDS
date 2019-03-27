@@ -21,7 +21,7 @@ class MeterElectricController extends Controller
             $meterElectricSingle = MeterEletric::where('room_id', '=', $roomId)->get();
             if (count($meterElectricSingle) <= 0) {
                 MeterEletric::create([
-                    'account_id' => 1,
+                    'account_id' => 2,
                     'room_id' => $roomId,
                     'unit' => 0,
                     'unit_current' => 0,
@@ -56,7 +56,7 @@ class MeterElectricController extends Controller
             $meterEletricSingle = MeterEletric::where('room_id', '=', $roomId)->get();
             if (count($meterEletricSingle) <= 0) {
                 MeterEletric::create([
-                    'account_id' => 1,
+                    'account_id' => 2,
                     'room_id' => $roomId,
                     'unit' => 0,
                     'unit_current' => 0,

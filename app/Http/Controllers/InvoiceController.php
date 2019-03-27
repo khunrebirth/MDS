@@ -2,6 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Account;
+use App\CustomerRoom;
+use App\Invoice;
+use App\InvoiceDetail;
+use App\MeterEletric;
+use App\MeterWater;
+use App\Room;
 use Illuminate\Http\Request;
 
 class InvoiceController extends Controller
@@ -13,7 +20,9 @@ class InvoiceController extends Controller
      */
     public function index()
     {
-        return view('invoices.index');
+        $rooms = Room::where('status', '=', '1')->get();
+
+        return view('invoices.index', compact('rooms'));
     }
 
     /**
@@ -80,5 +89,132 @@ class InvoiceController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function build($date, $id)
+    {
+        $checkDate = new \Carbon\Carbon($date);
+        $textCheckDate = "{$checkDate->year}-{$checkDate->month}";
+        $checkInvoiceOrCreate = Invoice::where('room_id', '=', $id)
+            ->where('month_year', '=', $textCheckDate)
+            ->first();
+
+        if ($checkInvoiceOrCreate == null) {
+            $invoice = new Invoice;
+            $customer = CustomerRoom::where('room_id', '=', $id)
+                ->whereNull('date_move_out')
+                ->first();
+            $invoice->customer_id = $customer->customer_id;
+            $invoice->room_id = $id;
+            $invoice->total = 0;
+            $invoice->date = $date;
+            $invoice->status = 0;
+            $newDate = new \Carbon\Carbon($date);
+            $invoice->month_year = "{$newDate->year}-{$newDate->month}";
+            $invoice->save();
+
+            $accounts = Account::all();
+
+            foreach ($accounts as $account) {
+                $invoiceDetail = new InvoiceDetail;
+                $invoiceDetail->account_id = $account->id;
+                $invoiceDetail->invoice_id = $invoice->id;
+                switch ($account->id) {
+                    case '1':
+                        $meterWater = MeterWater::where('room_id', '=', $id)
+                            ->where('account_id', '=', $account->id)
+                            ->first();
+                        $invoiceDetail->unit = $meterWater->unit;
+                        $invoiceDetail->unit_current = $meterWater->unit_current;
+                        $invoiceDetail->total = ($meterWater->unit_current - $meterWater->unit) * $account->price;
+                        break;
+                    case '2':
+                        $meterEletric = MeterEletric::where('room_id', '=', $id)
+                            ->where('account_id', '=', $account->id)
+                            ->first();
+                        $invoiceDetail->unit = $meterEletric->unit;
+                        $invoiceDetail->unit_current = $meterEletric->unit_current;
+                        $invoiceDetail->total = ($meterEletric->unit_current - $meterEletric->unit) * $account->price;
+                        break;
+                    default:
+                        $invoiceDetail->total = $account->price;
+                }
+
+                $invoiceDetail->save();
+            }
+        }
+
+        $rooms = Room::where('status', '=', '1')->get();
+
+        session()->flash('message', 'สำเร็จ');
+
+        return view('invoices.index', compact('rooms'));
+    }
+
+    public function buildAll($date)
+    {
+        $rooms = Room::where('status', '=', '1')->get();
+
+        foreach ($rooms as $room) {
+
+            $id = $room->id;
+
+            $checkDate = new \Carbon\Carbon($date);
+            $textCheckDate = "{$checkDate->year}-{$checkDate->month}";
+            $checkInvoiceOrCreate = Invoice::where('room_id', '=', $id)
+                ->where('month_year', '=', $textCheckDate)
+                ->first();
+
+            if ($checkInvoiceOrCreate == null) {
+                $invoice = new Invoice;
+                $customer = CustomerRoom::where('room_id', '=', $id)
+                    ->whereNull('date_move_out')
+                    ->first();
+                $invoice->customer_id = $customer->customer_id;
+                $invoice->room_id = $id;
+                $invoice->total = 0;
+                $invoice->date = $date;
+                $invoice->status = 0;
+                $newDate = new \Carbon\Carbon($date);
+                $invoice->month_year = "{$newDate->year}-{$newDate->month}";
+                $invoice->save();
+
+                $accounts = Account::all();
+
+                foreach ($accounts as $account) {
+                    $invoiceDetail = new InvoiceDetail;
+                    $invoiceDetail->account_id = $account->id;
+                    $invoiceDetail->invoice_id = $invoice->id;
+                    switch ($account->id) {
+                        case '1':
+                            $meterWater = MeterWater::where('room_id', '=', $id)
+                                ->where('account_id', '=', $account->id)
+                                ->first();
+                            $invoiceDetail->unit = $meterWater->unit;
+                            $invoiceDetail->unit_current = $meterWater->unit_current;
+                            $invoiceDetail->total = ($meterWater->unit_current - $meterWater->unit) * $account->price;
+                            break;
+                        case '2':
+                            $meterEletric = MeterEletric::where('room_id', '=', $id)
+                                ->where('account_id', '=', $account->id)
+                                ->first();
+                            $invoiceDetail->unit = $meterEletric->unit;
+                            $invoiceDetail->unit_current = $meterEletric->unit_current;
+                            $invoiceDetail->total = ($meterEletric->unit_current - $meterEletric->unit) * $account->price;
+                            break;
+                        default:
+                            $invoiceDetail->total = $account->price;
+                    }
+
+                    $invoiceDetail->save();
+                }
+            }
+        }
+
+        $rooms = Room::where('status', '=', '1')->get();
+
+        session()->flash('message', 'สำเร็จ');
+
+        return view('invoices.index', compact('rooms'));
     }
 }

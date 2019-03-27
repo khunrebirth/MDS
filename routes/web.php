@@ -36,6 +36,8 @@ Route::prefix('/')->group(function () {
 
     # Invoice
     Route::resource('invoices', 'InvoiceController');
+    Route::get('invoices/{date}/build/by/{id}/room', 'InvoiceController@build')->name('invoices.build.by.id.room');
+    Route::get('invoices/{date}/build/all', 'InvoiceController@buildAll')->name('invoices.build.all');
 
     # Report
     Route::resource('reports', 'ReportController');
