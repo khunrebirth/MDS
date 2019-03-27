@@ -70,6 +70,8 @@ class MeterWaterController extends Controller
             }
         }
 
+        session()->flash('message', 'สำเร็จ');
+
         $meterWaters = MeterWater::whereIn('room_id', $listRoomId)->get();
 
         return view('meters.waters.index', compact('meterWaters'));

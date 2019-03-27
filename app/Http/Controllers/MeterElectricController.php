@@ -65,6 +65,8 @@ class MeterElectricController extends Controller
             }
         }
 
+        session()->flash('message', 'สำเร็จ');
+
         $meterElectrics = MeterEletric::whereIn('room_id', $listRoomId)->get();
 
         return view('meters.electrics.index', compact('meterElectrics'));

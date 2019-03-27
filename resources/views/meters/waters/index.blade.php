@@ -8,6 +8,10 @@
                 <h1>บันทึก</h1>
             </div>
 
+            @if(Session::has('message'))
+                <p class="alert alert-info">{{ Session::get('message') }}</p>
+            @endif
+
             <div class="section-body">
                 <h2 class="section-title">บันทึกมิเตอร์น้ำประจำงวด</h2>
 
