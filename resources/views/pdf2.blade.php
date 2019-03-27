@@ -6,6 +6,38 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
     <style>
+        @font-face {
+            font-family: 'THSarabunNew';
+            font-style: normal;
+            font-weight: normal;
+            src: url("{{ asset('fonts/THSarabunNew.ttf') }}") format('truetype');
+        }
+
+        @font-face {
+            font-family: 'THSarabunNew';
+            font-style: normal;
+            font-weight: normal;
+            src: url("{{ asset('fonts/THSarabunNew Bold.ttf') }}") format('truetype');
+        }
+
+        @font-face {
+            font-family: 'THSarabunNew';
+            font-style: normal;
+            font-weight: normal;
+            src: url("{{ asset('fonts/THSarabunNew Italic.ttf') }}") format('truetype');
+        }
+
+        @font-face {
+            font-family: 'THSarabunNew';
+            font-style: normal;
+            font-weight: normal;
+            src: url("{{ asset('fonts/THSarabunNew BoldItalic.ttf') }}") format('truetype');
+        }
+
+        body {
+            font-family: "THSarabunNew";
+        }
+
         table {
             border-collapse: collapse;
             width: 100%;
@@ -18,10 +50,11 @@
 
         tr:nth-child(even){background-color: #f2f2f2}
 
-        th {
+        #header  {
             background-color: #4CAF50;
             color: white;
         }
+
         .page-break {
             page-break-after: always;
         }
@@ -32,11 +65,11 @@
             <?php $invoiceParent = \App\Invoice::find($room->id) ?>
             <?php $invoices = \App\InvoiceDetail::where('invoice_id', '=', $room->id)->get(); ?>
 
-            <h1 style="text-align: center">หมายเลขห้อง {{ $invoiceParent->room->id }}</h1>
-            <h2 style="text-align: center">รายละเอียดบิล {{ '(งวด ' . \Carbon\Carbon::create($invoiceParent->date)->format('Y-m') . ')' }}</h2>
+            หมายเลขห้อง {{ $invoiceParent->room->id }}
+            รายละเอียดบิล {{ '(งวด ' . \Carbon\Carbon::create($invoiceParent->date)->format('Y-m') . ')' }}
 
-            <table>
-                <tr>
+            <table style="margin-top: 18px;">
+                <tr id="header">
                     <th>#</th>
                     <th>รายการ</th>
                     <th>หน่วยครั้งที่แล้ว</th>

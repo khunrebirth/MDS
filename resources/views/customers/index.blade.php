@@ -185,7 +185,7 @@
 @endsection
 
 @push('scripts')
-    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script src="{{ asset('js/sweetalert.min.js') }}"></script>
     <script>
         function reload() {
             setTimeout(function () {
