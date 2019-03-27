@@ -48,7 +48,8 @@ Route::middleware(['auth'])->prefix('/')->group(function () {
     Route::post('payments/create/fast', 'PaymentController@fast')->name('payments.create.fast');
 
 //    # Report
-//    Route::resource('reports', 'ReportController');
+    Route::resource('reports', 'ReportController');
+    Route::post('reports/search', 'ReportController@search')->name('reports.search');
 
     # Setting
     Route::resource('settings', 'SettingController');

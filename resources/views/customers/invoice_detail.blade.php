@@ -46,7 +46,7 @@
                                         <td></td>
                                         <td></td>
                                         <td>ทั้งหมด</td>
-                                        <td>{{ $total + $priceRoom }}</td>
+                                        <td>{{ $total + $priceRoom . ' บาท'}}</td>
                                     </tr>
                                     </tbody>
                                 </table>

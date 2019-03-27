@@ -106,8 +106,8 @@
                     <li class="{{ Route::is('meters.electric.*') ? 'active' : '' }}"><a class="nav-link" href="{{ route('meters.electric.home') }}">มิเตอร์ไฟ</a></li>
                 </ul>
             </li>
-            <li class="{{ Route::is('invoices.*') ? 'active' : '' }}"><a class="nav-link" href="{{ route('invoices.index') }}"><i class="fas fa-newspaper"></i> <span>สร้างใบแจ้งค่าเช่า</span></a>
-            </li>
+            <li class="{{ Route::is('invoices.*') ? 'active' : '' }}"><a class="nav-link" href="{{ route('invoices.index') }}"><i class="fas fa-newspaper"></i> <span>สร้างใบแจ้งค่าเช่า</span></a></li>
+            <li class="{{ Route::is('reports.*') ? 'active' : '' }}"><a class="nav-link" href="{{ route('reports.index') }}"><i class="fas fa-paper-plane"></i> <span>รายงานยอดชำระ</span></a></li>
             <li class="{{ Route::is('payments.*') ? 'active' : '' }}"><a class="nav-link" href="{{ route('payments.index') }}"><i class="fas fa-dollar-sign"></i> <span>ชำระค่าเช่า</span></a></li>
             <li class="{{ Route::is('settings.*') ? 'active' : '' }}"><a class="nav-link" href="{{ route('settings.index') }}"><i class="fas fa-cogs"></i> <span>ตั้งค่า</span></a></li>
         </ul>
