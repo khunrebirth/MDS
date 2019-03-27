@@ -38,7 +38,7 @@ class InvoiceController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -49,7 +49,7 @@ class InvoiceController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -60,7 +60,7 @@ class InvoiceController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
@@ -71,8 +71,8 @@ class InvoiceController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \Illuminate\Http\Request $request
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
@@ -83,7 +83,7 @@ class InvoiceController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
@@ -194,6 +194,7 @@ class InvoiceController extends Controller
                             $invoiceDetail->unit_current = $meterWater->unit_current;
                             $invoiceDetail->total = ($meterWater->unit_current - $meterWater->unit) * $account->price;
                             break;
+
                         case '2':
                             $meterEletric = MeterEletric::where('room_id', '=', $id)
                                 ->where('account_id', '=', $account->id)
@@ -202,6 +203,7 @@ class InvoiceController extends Controller
                             $invoiceDetail->unit_current = $meterEletric->unit_current;
                             $invoiceDetail->total = ($meterEletric->unit_current - $meterEletric->unit) * $account->price;
                             break;
+
                         default:
                             $invoiceDetail->total = $account->price;
                     }

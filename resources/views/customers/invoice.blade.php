@@ -25,6 +25,7 @@
                                             <th>ชื่อ</th>
                                             <th>นามสกุล</th>
                                             <th>ชื่อเล่น</th>
+                                            <th>สถานะบิล</th>
                                             <th>จัดการ</th>
                                         </tr>
                                         </thead>
@@ -36,6 +37,12 @@
                                                 <td>{{ $invoice->customer->first_name }}</td>
                                                 <td>{{ $invoice->customer->last_name }}</td>
                                                 <td>{{ $invoice->customer->nickname }}</td>
+                                                <td>
+                                                    <div class="{{ $invoice->status != 0 ? 'badge badge-success' : 'badge badge-danger' }}">
+                                                        {{ $invoice->status != 0 ? 'ชำระแล้ว' : 'ยังไม่ได้ชำระ' }}
+                                                    </div>
+                                                </td>
+
                                                 <td>
                                                     <a href="{{ route('customers.invoice.detail', $invoice->id) }}">ดูรายการบิล</a>
                                                 </td>

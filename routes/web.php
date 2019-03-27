@@ -39,8 +39,13 @@ Route::prefix('/')->group(function () {
     Route::get('invoices/{date}/build/by/{id}/room', 'InvoiceController@build')->name('invoices.build.by.id.room');
     Route::get('invoices/{date}/build/all', 'InvoiceController@buildAll')->name('invoices.build.all');
 
-    # Report
-    Route::resource('reports', 'ReportController');
+    # Payments
+    Route::get('payments', 'PaymentController@index')->name('payments.index');
+    Route::post('payments/create', 'PaymentController@create')->name('payments.create');
+    Route::post('payments/create/fast', 'PaymentController@fast')->name('payments.create.fast');
+
+//    # Report
+//    Route::resource('reports', 'ReportController');
 
     # Setting
     Route::resource('settings', 'SettingController');

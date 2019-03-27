@@ -7,7 +7,6 @@
             <div class="section-header">
                 <h1>ลูกค้า</h1>
             </div>
-
             <div class="section-body">
                 <h2 class="section-title">รายชื่อลูกค้า (ทั้งหมด)</h2>
                 <div class="row">
@@ -21,12 +20,17 @@
                                 <div class="card-body" style="padding-bottom: 0px;">
                                     <div class="form-group">
                                         <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="radio" id="inlineradio1" name="customer_type" value="all" {{ $customerType ==  'all' ? 'checked' : '' }}>
+                                            <input class="form-check-input" type="radio" id="inlineradio1"
+                                                   name="customer_type"
+                                                   value="all" {{ $customerType ==  'all' ? 'checked' : '' }}>
                                             <label class="form-check-label" for="inlineradio1">ลูกค้าทั้งหมด</label>
                                         </div>
                                         <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="radio" id="inlineradio1" name="customer_type" value="have" {{ $customerType ==  'have' ? 'checked' : '' }}>
-                                            <label class="form-check-label" for="inlineradio1">ลูกค้าที่ค้างค่าเช่า</label>
+                                            <input class="form-check-input" type="radio" id="inlineradio1"
+                                                   name="customer_type"
+                                                   value="have" {{ $customerType ==  'have' ? 'checked' : '' }}>
+                                            <label class="form-check-label"
+                                                   for="inlineradio1">ลูกค้าที่ค้างค่าเช่า</label>
                                         </div>
                                     </div>
                                 </div>
@@ -40,7 +44,8 @@
                         <div class="card">
                             <div class="card-header text-right" style="display: block;">
                                 <a href="#modalAddEditCustomer" class="btn btn-primary" id="btnShowRoomModal"
-                                   data-toggle="modal" onclick="addCustomer()"><i class="fas fa-plus"></i> เพิ่มลูกค้าใหม่</a>
+                                   data-toggle="modal" onclick="addCustomer()"><i class="fas fa-plus"></i>
+                                    เพิ่มลูกค้าใหม่</a>
                             </div>
                             <div class="card-body">
                                 <div class="table-responsive">
@@ -66,16 +71,27 @@
                                                 <td>{{ $customer->idcard }}</td>
                                                 <td>{{ $customer->phone }}</td>
                                                 <td>{{ $customer->email }}</td>
-                                                <td><a href="{{ route('customers.invoice', $customer->id) }}">{{ count($customer->invoices) }}</a></td>
+                                                <td><a href="{{ route('customers.invoice', $customer->id) }}">
+                                                        <?php
+                                                            $listInvoices = [];
+                                                            foreach ($customer->invoices as $invoice) {
+                                                                if ($invoice->status != 1) {
+                                                                    $listInvoices[] = $invoice;
+                                                                }
+                                                            }
+
+                                                            $counter = count($listInvoices);
+                                                        ?>
+                                                        {{ $counter }}
+                                                    </a></td>
                                                 <td>
-                                                    <button type="button" class="btn btn-info" onclick="showCustomer({{ $customer->id }})"><i class="fas fa-eye"></i> ดูรายละเอียด
+                                                    <button type="button" class="btn btn-info" onclick="showCustomer({{ $customer->id }})">
+                                                        <i class="fas fa-eye"></i> ดูรายละเอียด
                                                     </button>
-                                                    <button type="button" class="btn btn-warning"
-                                                            onclick="editCustomer({{ $customer->id . ',' . "'" . route('customers.update', $customer->id) . "'"}})">
+                                                    <button type="button" class="btn btn-warning" onclick="editCustomer({{ $customer->id . ',' . "'" . route('customers.update', $customer->id) . "'"}})">
                                                         <i class="fas fa-edit"></i> แก้ไข
                                                     </button>
-                                                    <button type="button" class="btn btn-danger"
-                                                            onclick="deleteCustomer({{ $customer->id . ',' . "'" . route('customers.destroy', $customer->id) . "'"}})">
+                                                    <button type="button" class="btn btn-danger" onclick="deleteCustomer({{ $customer->id . ',' . "'" . route('customers.destroy', $customer->id) . "'"}})">
                                                         <i class="fas fa-trash-alt"></i> ลบ
                                                     </button>
                                                 </td>
@@ -150,7 +166,7 @@
             </div>
         </div>
 
-        <div class="modal fade" tabindex="-1" role="dialog"  id="modalShowCustomer">
+        <div class="modal fade" tabindex="-1" role="dialog" id="modalShowCustomer">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
