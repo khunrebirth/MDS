@@ -33,7 +33,7 @@
                                         @foreach($invoices as $invoice)
                                             <tr>
                                                 <td>{{ $invoice->id }}</td>
-                                                <td>{{ $invoice->date }}</td>
+                                                <td>{{ \Carbon\Carbon::create($invoice->date)->format('Y-m-d') }}</td>
                                                 <td>{{ $invoice->customer->first_name }}</td>
                                                 <td>{{ $invoice->customer->last_name }}</td>
                                                 <td>{{ $invoice->customer->nickname }}</td>

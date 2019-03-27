@@ -115,6 +115,8 @@ class InvoiceController extends Controller
 
             $accounts = Account::all();
 
+            $priceTotal = 0;
+
             foreach ($accounts as $account) {
                 $invoiceDetail = new InvoiceDetail;
                 $invoiceDetail->account_id = $account->id;
@@ -140,8 +142,13 @@ class InvoiceController extends Controller
                         $invoiceDetail->total = $account->price;
                 }
 
+                $priceTotal += $invoiceDetail->total;
                 $invoiceDetail->save();
             }
+
+            $invoiceUpdate = Invoice::find($invoice->id);
+            $invoiceUpdate->total = $priceTotal;
+            $invoiceUpdate->save();
         }
 
         $rooms = Room::where('status', '=', '1')->get();
