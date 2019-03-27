@@ -25,7 +25,7 @@
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    @php $total = 0 @endphp
+                                    @php $total = 0; $priceRoom = 0; @endphp
                                     @foreach($invoices as $invoice)
                                         <tr>
                                             <td>{{ $loop->iteration }}</td>
@@ -33,8 +33,11 @@
                                             <td>{{ $invoice->unit }}</td>
                                             <td>{{ $invoice->unit_current }}</td>
                                             <td>{{ $invoice->account->price }}</td>
-                                            <td>{{ ($invoice->unit_current - $invoice->unit) * $invoice->account->price }}</td>
-                                            @php $total += ($invoice->unit_current - $invoice->unit) * $invoice->account->price @endphp
+                                            <td>{{ $invoice->account->id == 3 ? $invoice->account->price : ($invoice->unit_current - $invoice->unit) * $invoice->account->price }}</td>
+                                            @php
+                                                $total += ($invoice->unit_current - $invoice->unit) * $invoice->account->price;
+                                                $priceRoom = $invoice->account->price;
+                                            @endphp
                                         </tr>
                                     @endforeach
                                     <tr>
@@ -43,7 +46,7 @@
                                         <td></td>
                                         <td></td>
                                         <td>ทั้งหมด</td>
-                                        <td>{{ $total }}</td>
+                                        <td>{{ $total + $priceRoom }}</td>
                                     </tr>
                                     </tbody>
                                 </table>

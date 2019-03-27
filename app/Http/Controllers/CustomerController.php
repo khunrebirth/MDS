@@ -126,12 +126,22 @@ class CustomerController extends Controller
             case 'all':
                 $customers = Customer::all();
                 break;
+
             case 'have':
                 $customers_all = Customer::all();
                 $listId = [];
                 foreach ($customers_all as $customer) {
-                    if (count($customer->invoices) > 0)
+
+                    $listInvoices = [];
+                    foreach ($customer->invoices as $invoice) {
+                        if ($invoice->status != 1) {
+                            $listInvoices[] = $invoice;
+                        }
+                    }
+
+                    if (count($listInvoices) > 0) {
                         $listId[] = $customer->id;
+                    }
                 }
 
                 $customers = Customer::whereIn('id', $listId)->get();
