@@ -18,6 +18,7 @@ Route::prefix('/')->group(function () {
     # Room
     Route::resource('rooms', 'RoomController');
     Route::post('rooms/search', 'RoomController@search')->name('rooms.search');
+    Route::get('rooms/{id}/history', 'RoomController@history')->name('rooms.history');
 
     # Customer
     Route::resource('customers', 'CustomerController');

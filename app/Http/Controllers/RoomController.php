@@ -172,4 +172,11 @@ class RoomController extends Controller
 
         return view('rooms.index', compact('rooms', 'roomType', 'listCustomers'));
     }
+
+    public function history($id)
+    {
+        $customerRooms = CustomerRoom::where('room_id', '=',$id)->get();
+
+        return view('rooms.history', compact('customerRooms'));
+    }
 }

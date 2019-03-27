@@ -175,7 +175,7 @@
                             <div id="bodyRoom"></div>
                         </div>
                         <div class="modal-footer bg-whitesmoke br">
-                            <a href="#" class="btn btn-primary">เช็คประวัติห้อง</a>
+                            <a href="#" class="btn btn-primary" id="historyRoom" target="_blank">เช็คประวัติห้อง</a>
                         </div>
                 </div>
             </div>
@@ -214,6 +214,10 @@
                         'สถานะ: ' + roomStatus + ' <br>' +
                         '</p>'
 
+                    var url = '{{ route("rooms.history", ":id") }}'
+                    url = url.replace(':id', res.data.id);
+
+                    $('#historyRoom').attr('href', url)
                     $('#bodyRoom').html(html)
                 }
             })

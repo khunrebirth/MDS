@@ -5,49 +5,39 @@
     <div class="main-content">
         <section class="section">
             <div class="section-header">
-                <h1>ห้องพัก</h1>
+                <h1>สร้างใบแจ้งค่าเช่า</h1>
             </div>
 
             <div class="section-body">
-                <h2 class="section-title">รายชื่อห้องพัก</h2>
-                <div class="text-right" style="margin-bottom: 15px;">
-                    <a href="#" class="btn btn-primary"><i class="fas fa-plus"></i> เพิ่มห้องใหม่</a>
-                </div>
+                <h2 class="section-title">รายชื่อห้องพัก (ทั้งหมด)</h2>
                 <div class="row">
                     <div class="col-12">
                         <div class="card">
+                            <div class="card-header text-right" style="display: block;">
+                                <a href="#modalAddEditCustomer" class="btn btn-primary" id="btnShowRoomModal" data-toggle="modal" onclick="addCustomer()">
+                                    <i class="fas fa-flag"></i> แจ้งทั้งหมด
+                                </a>
+                            </div>
                             <div class="card-body">
                                 <div class="table-responsive">
                                     <table class="table table-striped" id="table-1">
                                         <thead>
-                                            <tr>
-                                                <th class="text-center">ลำดับ</th>
-                                                <th>หมายเลขห้อง</th>
-                                                <th>รายละเอียด</th>
-                                                <th>ราคา</th>
-                                                <th>ลักษณะห้อง</th>
-                                                <th>สถานะ</th>
-                                                <th>จัดการ</th>
-                                            </tr>
+                                        <tr>
+                                            <th>หมายเลขห้อง</th>
+                                            <th>ชื่อ</th>
+                                            <th>สกุล</th>
+                                            <th>ชื่อเล่น</th>
+                                            <th>จัดการ</th>
+                                        </tr>
                                         </thead>
                                         <tbody>
-                                        @foreach($rooms as $room)
                                             <tr>
-                                                <td>{{ $loop->iteration }}</td>
-                                                <td>{{ $room->no }}</td>
-                                                <td>{{ $room->detail }}</td>
-                                                <td>{{ $room->price }}</td>
-                                                <td>{{ $room->room_type_id }}</td>
-                                                <td>
-                                                    <div class="{{ $room->status != 1 ? 'badge badge-success' : 'badge badge-danger' }}">ว่าง</div>
-                                                </td>
-                                                <td>
-                                                    <a href="#" class="btn btn-info"><i class="fas fa-eye"></i> ดูรายละเอียด</a>
-                                                    <a href="#" class="btn btn-warning"><i class="fas fa-edit"></i> แก้ไข</a>
-                                                    <a href="#" class="btn btn-danger"><i class="fas fa-trash-alt"></i> ลบ</a>
-                                                </td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
                                             </tr>
-                                        @endforeach
                                         </tbody>
                                     </table>
                                 </div>
