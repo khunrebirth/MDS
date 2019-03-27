@@ -1,4 +1,4 @@
-# Management Dormitory System (MDS) ระบบจัดการหอพักขนาดเล็ก
+# Management Dormitory System (MDS)
 - ระบบจัดการหอพักขนาดเล็ก
 
 ## What's New
